@@ -1,0 +1,4 @@
+pyaml
+yfinance
+time
+os
