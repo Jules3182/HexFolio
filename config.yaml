@@ -1,0 +1,7 @@
+# General program settings
+
+## Time in between data updates (Seconds)
+update_time: 5
+
+## Use TUI
+tui_on: True # On by default for debugging purposes

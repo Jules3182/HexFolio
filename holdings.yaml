@@ -1,8 +1,3 @@
-# General program settings
-
-## Time in between data updates (Seconds)
-update_time: 5
-
 # List of your holdings
 # (TICKER:NUMBER-OF-SHARES)
 tickers:
