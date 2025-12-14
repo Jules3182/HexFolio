@@ -1,4 +1,4 @@
-# HexenFolio
+# HexFolio
 
 This is a self hosted stock portfolio viewing dashboard meant to run as a docker container. This program adds up your total holdings as listed in the holdings.yaml file and hosts them on a local site which graphs their movements live.
 
