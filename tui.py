@@ -10,7 +10,7 @@ from holdings_utils import load_holdings as hu
 
 console = Console()
 
-def portfolio_table(holdings: dict, prices, change) -> Table:
+def portfolio_table(holdings: dict, prices, change, change_percent) -> Table:
     # Set up for the portfolio stats displayed in the terminal with rich
     table = Table(title="Portfolio Standings")
 
@@ -19,20 +19,24 @@ def portfolio_table(holdings: dict, prices, change) -> Table:
     table.add_column("Price ($)", no_wrap=True)
     table.add_column("Value ($)", no_wrap=True)
     table.add_column("Change ($)", no_wrap=True)
-    # Will add columns for % change and % of portfolio later
+    table.add_column("Change (%)", no_wrap=True)
     # User config for what columns are shown?
 
     # Sets total variables
     total = 0
     total_change = 0.0
-
-    # Sets up breakdown list for use in print loop
-    breakdown = []
+    total_change_percent = 0.0
 
     # Loops through each ticker pulling price and number of shares
     for ticker, shares in holdings.items():
         price = prices.get(ticker)
         delta = change.get(ticker)
+        delta_percent = change_percent.get(ticker)
+
+        # # resets total variables (there's definetly a smarter way of doing this)
+        # total = 0
+        # total_change = 0.0
+        # total_change_percent = 0.0
 
         # Skip invalid/missing prices
         if price is None:
@@ -41,7 +45,7 @@ def portfolio_table(holdings: dict, prices, change) -> Table:
         # Handles the math
         value = price * shares
         total += value
-        total_change += delta
+        total_change += (delta * shares)
 
         # Messing aroind with visual Up/Down stuff with rich
         color = "green" if (delta >= 0) else "red"
@@ -53,8 +57,11 @@ def portfolio_table(holdings: dict, prices, change) -> Table:
             str(shares),
             f"{float(price):.2f}",
             f"{float(value):.2f}",
-            f"[{color}]{symbol} ${abs(float(delta)):.2f}"
+            f"[{color}]{symbol} ${abs(float(delta * shares)):.2f}",
+            f"[{color}]{symbol} %{abs(float(delta_percent)):.2f}"
         )
+        
+        total_change_percent = ((total - (total - total_change)) / (total - total_change) * 100)
     
     # Stylimg for bottom rown, I will likely split this off into a new function later
     color = "green" if (total_change >= 0) else "red"
@@ -67,7 +74,8 @@ def portfolio_table(holdings: dict, prices, change) -> Table:
         "",
         "",
         f"[bold]{total:,.2f}[/]",
-        f"[bold][{color}]{symbol} ${abs(total_change):,.2f}[/]"
+        f"[bold][{color}]{symbol} ${abs(total_change):,.2f}[/]",
+        f"[bold][{color}]{symbol} %{abs(total_change_percent):,.2f}[/]"
     )
 
     return table

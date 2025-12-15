@@ -105,6 +105,29 @@ def get_price_changes(tickers):
             changes[ticker] = (c - o)
 
     return changes
+
+# Calculates the daily change in price (will likely change this later to just be in the same function as other one)
+def get_price_changes_percent(tickers):
+    # Getting the open prices and current prices to compare
+    opens = get_opening_prices(tickers)
+    currents = get_current_prices(tickers)
+
+    # List for changes in price
+    changes = {}
+
+    # Loop for each ticker calculating change from opening to current price
+    for ticker in tickers:
+        o = opens.get(ticker)
+        c = currents.get(ticker)
+
+        # Case for no change
+        # (Doesn't have any use really yet but I will fix that)
+        if o is None or c is None:
+            changes[ticker] = None
+        else:
+            changes[ticker] = (((c - o) / o) * 100)
+
+    return changes
     
 # Main Run Loop
 def main():
@@ -118,9 +141,12 @@ def main():
     holdings = load_holdings()
 
     try:
+
+        opens_cache = get_opening_prices(holdings)
+        
         # Live loop for constantly refreshing TUI tables
         with Live(
-            tui.portfolio_table(holdings, {}, {}),
+            tui.portfolio_table(holdings, {}, {}, {}),
             console=console,
             refresh_per_second=2,
         ) as live:
@@ -129,13 +155,15 @@ def main():
                 # Pulling most recent data to pass in
                 current_prices = get_current_prices(holdings)
                 price_changes = get_price_changes(holdings)
+                price_changes_percent = get_price_changes_percent(holdings)
 
                 # Refreshing the table with fresh data, realistically I should cache the holdings but I like this for now
                 live.update(
                     tui.portfolio_table(
                         holdings,
                         current_prices,
-                        price_changes
+                        price_changes,
+                        price_changes_percent
                     )
                 )
 
