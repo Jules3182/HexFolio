@@ -1,37 +1,11 @@
-import yaml
 import yfinance as yf
-import time
-import math
-
-# Rich stuff for live updates and console
-from rich.live import Live
-from rich.console import Console
-
-# Utils split into other file for future use
-from holdings_utils import add_ticker, remove_ticker, set_ticker_value
-
-# Terminal management stuff moved to other file
-import tui
+from app.utils.validation import is_valid_price
 
 # Caching prices to help not break when stocks are slow to update
 price_cache: dict[str, float] = {}
 
-# Checking if price is valid to stop slow to update prices from breaking math
-def is_valid_price(value) -> bool:
-    return value is not None and not math.isnan(value)
-
-# Loads up user config on start
-with open("config.yaml") as f:
-    config = yaml.safe_load(f)
-
-# Gets listed tickers from holdings.yaml
-def load_holdings():
-    with open("holdings.yaml", "r") as f:
-        data = yaml.safe_load(f)
-        return data["tickers"]
-
 # Get opening prices for each ticker
-# (I need to cache this somewhere and only call during market hours if data is old)
+# (I need to cache this somewhere and only call once during market hours if data is old)
 def get_opening_prices(holdings: dict):
     opening_prices = {}
 
@@ -128,51 +102,4 @@ def get_price_changes_percent(tickers):
             changes[ticker] = (((c - o) / o) * 100)
 
     return changes
-    
-# Main Run Loop
-def main():
-    # Checking if TUI is disabled in config
-    if not config["tui_on"]:
-        print("Tui Not Active")
-        return
-
-    # Setting up variables for easy passing in
-    console = Console()
-    holdings = load_holdings()
-
-    try:
-
-        opens_cache = get_opening_prices(holdings)
-        
-        # Live loop for constantly refreshing TUI tables
-        with Live(
-            tui.portfolio_table(holdings, {}, {}, {}),
-            console=console,
-            refresh_per_second=2,
-        ) as live:
-
-            while True:
-                # Pulling most recent data to pass in
-                current_prices = get_current_prices(holdings)
-                price_changes = get_price_changes(holdings)
-                price_changes_percent = get_price_changes_percent(holdings)
-
-                # Refreshing the table with fresh data, realistically I should cache the holdings but I like this for now
-                live.update(
-                    tui.portfolio_table(
-                        holdings,
-                        current_prices,
-                        price_changes,
-                        price_changes_percent
-                    )
-                )
-
-                # Updates at user configured speed
-                time.sleep(config["update_time"])
-
-    # Exit case and little "sign off" print
-    except KeyboardInterrupt:
-        console.print("\n[bold red]Quitting HexFolio TUI[/]")
-
-if __name__ == "__main__":
-    main()
+   

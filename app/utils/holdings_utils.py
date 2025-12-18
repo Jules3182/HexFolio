@@ -1,6 +1,7 @@
 import yaml
 
 # This is a bunch of duct taped together unused junk code for the time being, please don't read this lol
+# I'm gonna just work this stuff into the holdings_service
 
 FILE = "holdings.yaml"
 

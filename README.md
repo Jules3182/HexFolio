@@ -20,6 +20,12 @@ Put your holdings in holdings.yaml (As seen in the example, under tickers you pu
 
 ## Feature List
 
+#### Version 0.1.2
+- Full project structure has been reworked
+- Essentially 2 scripts, split up into modules that make sense and are far more scalable
+- Framework has been laid to get FastApi up and running
+- I will polish up what is here, add a few small features and refine my backend and then move onto the frontend work!
+
 #### Version 0.1.1
 - Much better TUI!
 - Uses rich for table, color, and live data

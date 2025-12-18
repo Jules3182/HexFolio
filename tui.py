@@ -6,7 +6,14 @@ from rich.table import Table
 from rich.console import Console
 from rich.live import Live
 
-from holdings_utils import load_holdings as hu
+from app.services.holdings_service import get_holdings as hu
+from app.services.pricing_service import (
+    get_opening_prices,
+    get_current_prices,
+    get_price_changes,
+    get_price_changes_percent
+)
+
 
 console = Console()
 
