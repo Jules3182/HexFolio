@@ -1,4 +1,4 @@
-![image](https://img.shields.io/badge/fastapi-109989?style=for-the-badge&logo=FASTAPI&logoColor=white)![image](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)![image](https://img.shields.io/badge/Pydantic-E92063?style=for-the-badge&logo=Pydantic&logoColor=white)![image](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)![image](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
+![image](https://img.shields.io/badge/fastapi-109989?style=for-the-badge&logo=FASTAPI&logoColor=white)![image](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)![image](https://img.shields.io/badge/Pydantic-E92063?style=for-the-badge&logo=Pydantic&logoColor=white)![image](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)![image](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)![image](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 # HexFolio
 
 This is a self hosted stock portfolio viewing dashboard meant to run as a docker container. This program adds up your total holdings as listed in the holdings.yaml file and hosts them on a local site which graphs their movements live.
@@ -20,6 +20,12 @@ Put your holdings in holdings.yaml (As seen in the example, under tickers you pu
 6. Expand on features, add customization, etc.
 
 ## Feature List
+
+#### Version 0.2.0
+- Random scripts no more! It is now a *semi* fucntional app!
+- Webhosting is now working (technically... Thats gonna be a huge focus for the next few weeks)
+- I broke down the handful of scripts into two seperate apps 
+- NTFY support groundwork has been laid (I will make that work later, but it's in the works)
 
 #### Version 0.1.2
 - Full project structure has been reworked
